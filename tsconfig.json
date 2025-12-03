@@ -4,14 +4,6 @@
     // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
-    "include": [
-    "src/**/*"                 
-  ],
-  "exclude": [
-    "node_modules",
-    "frontend",                
-    "**/*.test.ts"
-  ],
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "commonjs",
@@ -50,5 +42,13 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+  },
+  "include": [
+    "src/**/*"                 
+  ],
+  "exclude": [
+    "node_modules",
+    "frontend",                
+    "**/*.test.ts"
+  ],
 }
