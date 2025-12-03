@@ -15,11 +15,19 @@ export const createExperimentSchema = z.object({
 });
 
 export const updateExperimentSchema = z.object({
-  params: experimentParams.shape,
+  params: experimentParams,
   body: z.object({
     name: z.string().min(1).optional(),
     parameters: z.any().optional(),
   }),
+});
+
+export const getExperimentSchema = z.object({
+  params: experimentParams,
+});
+
+export const deleteExperimentSchema = z.object({
+  params: experimentParams,
 });
 
 export type ExperimentParams = z.infer<typeof experimentParams>;

@@ -7,7 +7,6 @@ import {
   metricParams,
   experimentContextParams,
 } from '../schemas/metric.schema';
-
 import { z } from 'zod';
 
 const router = Router();
@@ -41,21 +40,6 @@ const router = Router();
  *     responses:
  *       '201':
  *         description: Métrica criada com sucesso.
- */
-router.post(
-  '/experiments/:experimentId/metrics',
-  validate(
-    z.object({
-      params: experimentContextParams,
-      body: createMetricSchema,
-    })
-  ),
-  metricController.create
-);
-
-/**
- * @openapi
- * /experiments/{experimentId}/metrics:
  *   get:
  *     tags: [Metrics]
  *     summary: Lista todas as métricas de um experimento
@@ -70,9 +54,15 @@ router.post(
  *       '200':
  *         description: Lista de métricas.
  */
+router.post(
+  '/experiments/:experimentId/metrics',
+  validate(createMetricSchema), 
+  metricController.create
+);
+
 router.get(
   '/experiments/:experimentId/metrics',
-  validate(z.object({ params: experimentContextParams })),
+  validate(z.object({ params: experimentContextParams })), 
   metricController.findAllByExperiment
 );
 
@@ -94,16 +84,6 @@ router.get(
  *         description: Métrica encontrada.
  *       '404':
  *         description: Métrica não encontrada.
- */
-router.get(
-  '/metrics/:id',
-  validate(z.object({ params: metricParams })),
-  metricController.findOne
-);
-
-/**
- * @openapi
- * /metrics/{id}:
  *   put:
  *     tags: [Metrics]
  *     summary: Atualiza uma métrica
@@ -127,21 +107,6 @@ router.get(
  *     responses:
  *       '200':
  *         description: Métrica atualizada com sucesso.
- */
-router.put(
-  '/metrics/:id',
-  validate(
-    z.object({
-      params: metricParams,
-      body: updateMetricSchema,
-    })
-  ),
-  metricController.update
-);
-
-/**
- * @openapi
- * /metrics/{id}:
  *   delete:
  *     tags: [Metrics]
  *     summary: Deleta uma métrica
@@ -156,6 +121,18 @@ router.put(
  *       '204':
  *         description: Métrica deletada com sucesso.
  */
+router.get(
+  '/metrics/:id',
+  validate(z.object({ params: metricParams })),
+  metricController.findOne
+);
+
+router.put(
+  '/metrics/:id',
+  validate(updateMetricSchema),
+  metricController.update
+);
+
 router.delete(
   '/metrics/:id',
   validate(z.object({ params: metricParams })),

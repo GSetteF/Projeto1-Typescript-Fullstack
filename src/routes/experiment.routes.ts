@@ -4,7 +4,8 @@ import { validate } from '../middlewares/validate';
 import {
   createExperimentSchema,
   updateExperimentSchema,
-  experimentParams,
+  getExperimentSchema,
+  deleteExperimentSchema,
 } from '../schemas/experiment.schema';
 
 const router = Router();
@@ -37,7 +38,6 @@ const router = Router();
  *     responses:
  *       '201':
  *         description: Experimento criado com sucesso.
- *
  *   get:
  *     tags:
  *       - Experiments
@@ -52,7 +52,20 @@ const router = Router();
  *     responses:
  *       '200':
  *         description: Lista de experimentos.
- *
+ */
+router.post(
+  '/projects/:projectId/experiments',
+  validate(createExperimentSchema),
+  experimentController.create
+);
+
+router.get(
+  '/projects/:projectId/experiments',
+  experimentController.findAllByProject
+);
+
+/**
+ * @openapi
  * /experiments/{id}:
  *   get:
  *     tags:
@@ -67,10 +80,9 @@ const router = Router();
  *           format: uuid
  *     responses:
  *       '200':
- *         description: Experimento encontrado (inclui dados do projeto pai).
+ *         description: Experimento encontrado.
  *       '404':
  *         description: Experimento não encontrado.
- *
  *   put:
  *     tags:
  *       - Experiments
@@ -96,7 +108,6 @@ const router = Router();
  *     responses:
  *       '200':
  *         description: Experimento atualizado com sucesso.
- *
  *   delete:
  *     tags:
  *       - Experiments
@@ -112,20 +123,9 @@ const router = Router();
  *       '204':
  *         description: Experimento deletado com sucesso.
  */
-router.post(
-  '/projects/:projectId/experiments',
-  validate(createExperimentSchema),
-  experimentController.create
-);
-
-router.get(
-  '/projects/:projectId/experiments',
-  experimentController.findAllByProject
-);
-
 router.get(
   '/experiments/:id',
-  validate(experimentParams),
+  validate(getExperimentSchema),
   experimentController.findOne
 );
 
@@ -137,7 +137,7 @@ router.put(
 
 router.delete(
   '/experiments/:id',
-  validate(experimentParams),
+  validate(deleteExperimentSchema),
   experimentController.deleteOne
 );
 

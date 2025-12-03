@@ -5,25 +5,35 @@ export const metricParams = z.object({
 });
 
 export const experimentContextParams = z.object({
-  experimentId: z
-  .string()
-  .min(1, 'experimentId é obrigatório')
-  .refine((val) => val.trim().length > 0, {
-    message: 'experimentId não pode ser vazio',
-  }),
+  experimentId: z.string().uuid('Invalid experiment ID'),
 });
 
 export const createMetricSchema = z.object({
-  name: z.string().min(1, { message: 'Name is required and cannot be empty' }),
-  value: z.number(),
+  params: experimentContextParams, 
+  body: z.object({
+    name: z.string().min(1, { message: 'Name is required' }),
+    value: z.number(),
+  }),
 });
 
 export const updateMetricSchema = z.object({
-  params: metricParams.shape,
+  params: metricParams, 
   body: z.object({
     name: z.string().min(1).optional(),
     value: z.number().optional(),
   }),
+});
+
+export const getMetricSchema = z.object({
+  params: metricParams,
+});
+
+export const getMetricsByExperimentSchema = z.object({
+  params: experimentContextParams,
+});
+
+export const deleteMetricSchema = z.object({
+  params: metricParams,
 });
 
 export type MetricParams = z.infer<typeof metricParams>;
