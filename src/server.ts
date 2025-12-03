@@ -4,8 +4,11 @@ import experimentRoutes from './routes/experiment.routes';
 import metricRoutes from './routes/metric.routes';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger.config';
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
