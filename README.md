@@ -1,11 +1,21 @@
 ## Tecnologias Utilizadas
 
-* **Backend**: Node.js, Express.js
+### Backend (API)
+* **Runtime**: Node.js, Express.js
 * **Linguagem**: TypeScript
 * **Banco de Dados**: PostgreSQL
 * **ORM**: Prisma
 * **Validação**: Zod
 * **Documentação**: Swagger (OpenAPI)
+
+### Frontend (Interface)
+* **Framework/Build Tool**: React + Vite
+* **Linguagem**: TypeScript
+* **Estilização**: Tailwind CSS
+* **Consumo de API**: Axios
+* **Roteamento**: React Router DOM
+* **Formulários & Validação**: React Hook Form + Zod
+* **Ícones**: Lucide React
 
 ## Como Executar o Projeto
 
@@ -17,39 +27,71 @@ Siga os passos abaixo para configurar e executar a aplicação localmente.
 * [NPM](https://www.npmjs.com/) ou [Yarn](https://yarnpkg.com/)
 * Uma instância do **PostgreSQL** rodando na sua máquina ou em um container Docker.
 
-### Passos
+### Passo a Passo
 
-1.  **Clone o repositório**
+#### 1. Configuração do Backend (API)
+
+1.  **Clone o repositório e instale as dependências da raiz:**
     ```bash
     git clone [https://github.com/seu-usuario/nome-do-repositorio.git](https://github.com/seu-usuario/nome-do-repositorio.git)
     cd nome-do-repositorio
-    ```
-
-2.  **Instale as dependências**
-    ```bash
     npm install
     ```
 
-3.  **Configure as variáveis de ambiente**
-    * Na raiz do projeto, crie um arquivo chamado `.env`.
-    * Abra o arquivo `.env` e configure a sua `DATABASE_URL` para se conectar ao seu banco de dados PostgreSQL.
+2.  **Configure as variáveis de ambiente do Backend:**
+    * Na **raiz** do projeto, crie um arquivo chamado `.env`.
+    * Configure a `DATABASE_URL` para o seu PostgreSQL:
         ```env
-        # Exemplo:
-        DATABASE_URL="postgresql://USUARIO:SENHA@HOST:PORTA/NOME_DO_BANCO"
+        # Arquivo: ./.env
+        DATABASE_URL="postgresql://USUARIO:SENHA@localhost:5432/NOME_DO_BANCO?schema=public"
+        PORT=3333
         ```
 
-4.  **Execute as migrações do Prisma**
-    * Este comando irá criar as tabelas (`Project`, `Experiment`, `Metric`) no seu banco de dados com base no schema definido.
+3.  **Configure o Banco de Dados:**
+    * Execute as migrações para criar as tabelas (`Project`, `Experiment`, `Metric`):
     ```bash
     npx prisma migrate dev
     ```
 
-5.  **Inicie o servidor de desenvolvimento**
-    * O servidor irá iniciar e recarregar automaticamente a cada alteração no código.
+4.  **Inicie o Servidor Backend:**
+    ```bash
+    npm run dev
+    ```
+    * O Backend estará rodando em: `http://localhost:3333`
+    * Documentação Swagger: `http://localhost:3333/api-docs`
+
+---
+
+#### 2. Configuração do Frontend (Interface)
+
+**Mantenha o terminal do backend rodando** e abra um **novo terminal** para os passos abaixo.
+
+1.  **Entre na pasta do frontend e instale as dependências:**
+    ```bash
+    cd frontend
+    npm install
+    ```
+
+2.  **Configure as variáveis de ambiente do Frontend:**
+    * Dentro da pasta `frontend`, crie um arquivo chamado `.env`.
+    * Defina a URL da API (Backend):
+        ```env
+        # Arquivo: ./frontend/.env
+        VITE_API_URL=http://localhost:3333
+        ```
+
+3.  **Inicie o Servidor Frontend:**
     ```bash
     npm run dev
     ```
 
-6.  **Fim**
-    * O servidor estará rodando em `http://localhost:3333`.
-    * A documentação interativa da API estará disponível em **`http://localhost:3333/api-docs`**.
+4.  **Acesse a Aplicação:**
+    * Abra seu navegador em: `http://localhost:5173` (ou a porta indicada no terminal).
+
+---
+
+## Estrutura do Projeto
+
+* **`/src`**: Código fonte do Backend (Controllers, Services, Routes, Prisma).
+* **`/frontend`**: Código fonte do Frontend React.
+* **`/prisma`**: Schemas e migrações do banco de dados.
