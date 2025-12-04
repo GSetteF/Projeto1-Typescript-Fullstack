@@ -69,7 +69,7 @@ export default function MetricModal({ isOpen, onClose, onSubmit, editingMetric }
             <input 
               type="number"
               step="any" 
-              {...register('value')}
+              {...register('value', { valueAsNumber: true })}
               className="w-full border border-slate-300 rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
               placeholder="0.95"
             />
