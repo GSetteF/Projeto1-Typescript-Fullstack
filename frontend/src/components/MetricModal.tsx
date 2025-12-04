@@ -7,7 +7,7 @@ import type { Metric } from '../types';
 
 const metricSchema = z.object({
   name: z.string().min(1, "O nome da métrica é obrigatório"),
-  value: z.coerce.number({ invalid_type_error: "O valor deve ser um número" }),
+  value: z.coerce.number(),
 });
 
 type MetricFormData = z.infer<typeof metricSchema>;
@@ -68,7 +68,7 @@ export default function MetricModal({ isOpen, onClose, onSubmit, editingMetric }
             <label className="block text-sm font-medium text-slate-700 mb-1">Valor</label>
             <input 
               type="number"
-              step="any" // Permite decimais
+              step="any" 
               {...register('value')}
               className="w-full border border-slate-300 rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
               placeholder="0.95"
