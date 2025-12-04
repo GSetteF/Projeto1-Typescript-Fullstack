@@ -7,7 +7,7 @@ import type { Metric } from '../types';
 
 const metricSchema = z.object({
   name: z.string().min(1, "O nome da métrica é obrigatório"),
-  value: z.coerce.number(),
+  value: z.number().min(0, "Valor inválido"),
 });
 
 type MetricFormData = z.infer<typeof metricSchema>;
@@ -27,6 +27,7 @@ export default function MetricModal({ isOpen, onClose, onSubmit, editingMetric }
     formState: { errors } 
   } = useForm<MetricFormData>({
     resolver: zodResolver(metricSchema),
+    defaultValues: { name: "", value: 0 },
   });
 
   useEffect(() => {
